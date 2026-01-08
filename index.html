@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Gifts In 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #bac3d1; 
+            color: #1a1a1a; 
+            margin: 0;
+            overflow: hidden; 
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        /* Стиль для фонових іконок */
+        .bg-floating-icon {
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.15; 
+            user-select: none;
+        }
+
+        .tt-gradient-btn {
+            background: linear-gradient(90deg, #ff0050 0%, #00f2ea 100%);
+            color: white;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .tt-gradient-btn:active {
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            height: 100vh;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10; 
+            overflow-y: auto;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        .gift-container {
+            perspective: 1000px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .gift-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .gift-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .gift-front, .gift-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff; 
+            border: 2px solid #a1adb8;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden; 
+        }
+
+        .gift-back {
+            transform: rotateY(180deg);
+            background: #f8f9fa;
+        }
+
+        .nickname-display {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            color: #ff0050;
+        }
+
+        input::placeholder {
+            color: #888;
+        }
+        
+        #nicknameInput {
+            background-color: white;
+            color: #1a1a1a;
+            border-color: #d1d5db;
+        }
+
+        .gift-counter {
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Icons Container -->
+    <div id="backgroundIcons"></div>
+
+    <!-- PAGE 1: LOGIN -->
+    <div id="page1" class="page active">
+        <h1 class="text-3xl font-bold mt-10 mb-8 text-center text-[#1a1a1a]">TikTok Gifts In 2026</h1>
+        
+        <div class="w-56 mb-12">
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo" class="w-full h-auto">
+        </div>
+
+        <div class="w-full px-6 flex flex-col gap-4 mt-auto mb-20">
+            <div class="relative">
+                <input type="text" id="nicknameInput" placeholder="Enter your username" 
+                    class="w-full border-2 rounded-xl p-4 focus:border-[#ff0050] outline-none transition-all shadow-sm">
+            </div>
+            <button onclick="goToPage2()" class="tt-gradient-btn w-full py-4 rounded-xl font-bold text-lg uppercase tracking-wider shadow-lg">OK</button>
+        </div>
+    </div>
+
+    <!-- PAGE 2: CHOOSE GIFTS -->
+    <div id="page2" class="page">
+        <div class="w-full flex justify-between items-start mb-6">
+            <div>
+                <span class="text-gray-700 font-semibold block">Choose 3 gifts</span>
+                <span id="counterDisplay" class="gift-counter">Selected: 0/3</span>
+            </div>
+            <span id="displayUser" class="nickname-display"></span>
+        </div>
+
+        <div id="gridContainer" class="grid grid-cols-2 gap-4 w-full mb-8 pb-10">
+            <!-- Cards generated via JS -->
+        </div>
+
+        <button id="okBtnPage2" onclick="goToPage3()" class="tt-gradient-btn w-full py-4 rounded-xl font-bold text-lg uppercase tracking-wider opacity-50 pointer-events-none transition-all shadow-lg sticky bottom-4">
+            OK
+        </button>
+    </div>
+
+    <!-- PAGE 3: RESULT -->
+    <div id="page3" class="page">
+        <h2 class="text-2xl font-bold mt-10 mb-2">Congratulations!</h2>
+        <div id="finalUser" class="nickname-display text-xl mb-8"></div>
+        
+        <p class="text-gray-700 font-medium mb-6">You have won these 3 gifts:</p>
+
+        <div id="finalGiftsContainer" class="flex flex-wrap justify-center gap-4 mb-10 w-full px-4">
+            <!-- Selected gifts images will be inserted here -->
+        </div>
+
+        <p class="text-gray-600 text-center mb-10 px-6">These are your special rewards for 2026!</p>
+
+        <button onclick="location.reload()" class="bg-[#1a1a1a] text-white w-full py-4 rounded-xl font-bold text-lg uppercase shadow-md">Start Over</button>
+    </div>
+
+    <script>
+        let nickname = "";
+        let selectedGifts = [];
+        const MAX_SELECTION = 3;
+
+        const giftIcons = [
+            "https://img.icons8.com/?size=48&id=lTkH3THtr7SL&format=png",
+            "https://img.icons8.com/?size=80&id=H6XC8PMdUgRz&format=png",
+            "https://img.icons8.com/?size=64&id=KeTtCQ_b-ZiV&format=png",
+            "https://img.icons8.com/?size=80&id=OSktZESVMduA&format=png"
+        ];
+
+        const gifts = [
+            { name: "Bubbly Kiss", src: "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/780e304a1f0926d9e4b08e4665bbc93d.png~tplv-obj.webp" },
+            { name: "Gem Gun", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/dd06007ade737f1001977590b11d3f61~tplv-obj.webp" },
+            { name: "Holiday Universe", src: "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/26b1c4e777cc486ae489ea7033ad8cbc.png~tplv-obj.webp" },
+            { name: "Pegasus", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/f600a2495ab5d250e7da2066484a9383.png~tplv-obj.webp" },
+            { name: "Arnold the Warrior", src: "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/39e6edaa867fd08963b4a5e5db3862bc.png~tplv-obj.webp" },
+            { name: "Valerian's Oath", src: "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/27408e0429e288fc735e9f010da9fcf3.png~tplv-obj.webp" },
+            { name: "Fire Phoenix", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/bfb8425a7e8fa03f9fec05a973a4a506.png~tplv-obj.webp" },
+            { name: "Snow Leopard", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/7697f1ab61de520b4ef5fd3cb58d6eab.png~tplv-obj.webp" },
+            { name: "Adam’s Dream", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/9a586391fbb1e21621c4203e5563a9e0~tplv-obj.webp" },
+            { name: "Fly Love", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a598ba4c7024f4d46c1268be4d82f901~tplv-obj.webp" },
+            { name: "Rosa Nebula", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/f722088231103b66875dae33f13f8719.png~tplv-obj.webp" },
+            { name: "Level-up Spectacle", src: "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/52a09724bbe8d78227db67bc5fe78613.png~tplv-obj.webp" }
+        ];
+
+        const coverImg = "https://img.icons8.com/?size=80&id=3veRWJpxPPDH&format=png";
+
+        function spawnBackgroundIcons() {
+            const container = document.getElementById('backgroundIcons');
+            container.innerHTML = ""; 
+            const iconCount = 18; 
+
+            for (let i = 0; i < iconCount; i++) {
+                const img = document.createElement('img');
+                img.src = giftIcons[Math.floor(Math.random() * giftIcons.length)];
+                img.className = 'bg-floating-icon';
+                
+                const size = Math.floor(Math.random() * 40) + 30; 
+                const top = Math.floor(Math.random() * 100);
+                const left = Math.floor(Math.random() * 100);
+                const rotation = Math.floor(Math.random() * 360);
+
+                img.style.width = `${size}px`;
+                img.style.top = `${top}%`;
+                img.style.left = `${left}%`;
+                img.style.transform = `rotate(${rotation}deg)`;
+
+                container.appendChild(img);
+            }
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function goToPage2() {
+            const input = document.getElementById('nicknameInput');
+            if (input.value.trim() === "") {
+                input.style.borderColor = "#ff0050";
+                return;
+            }
+            nickname = input.value;
+            document.getElementById('displayUser').innerText = "@" + nickname;
+            
+            initGiftGrid();
+            switchPage('page2');
+        }
+
+        function initGiftGrid() {
+            const container = document.getElementById('gridContainer');
+            container.innerHTML = "";
+            
+            // Randomize gifts list
+            const shuffledGifts = [...gifts].sort(() => Math.random() - 0.5);
+
+            shuffledGifts.forEach((gift, index) => {
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = "gift-container mx-auto";
+                
+                cardWrapper.innerHTML = `
+                    <div class="gift-card" id="card-${index}" onclick="revealGift(this, '${gift.src}')">
+                        <div class="gift-front">
+                            <img src="${coverImg}" class="w-full h-full object-cover" alt="cover">
+                        </div>
+                        <div class="gift-back">
+                            <img src="${gift.src}" class="w-16 h-16 object-contain" 
+                                 onerror="this.src='https://via.placeholder.com/100?text=Gift'" alt="${gift.name}">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(cardWrapper);
+            });
+        }
+
+        function revealGift(element, src) {
+            // Check if already flipped or limit reached
+            if (element.classList.contains('flipped') || selectedGifts.length >= MAX_SELECTION) return;
+
+            element.classList.add('flipped');
+            selectedGifts.push(src);
+
+            // Update counter
+            document.getElementById('counterDisplay').innerText = `Selected: ${selectedGifts.length}/${MAX_SELECTION}`;
+
+            // Visual feedback for selection
+            setTimeout(() => {
+                element.style.boxShadow = "0 0 15px rgba(255, 0, 80, 0.4)";
+                element.style.borderColor = "#ff0050";
+            }, 300);
+
+            // Enable OK button only if exactly 3 are selected
+            if (selectedGifts.length === MAX_SELECTION) {
+                const okBtn = document.getElementById('okBtnPage2');
+                okBtn.classList.remove('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        function goToPage3() {
+            document.getElementById('finalUser').innerText = "@" + nickname;
+            
+            const resultsContainer = document.getElementById('finalGiftsContainer');
+            resultsContainer.innerHTML = ""; // Clear
+            
+            // Display all selected gifts
+            selectedGifts.forEach(giftSrc => {
+                const giftBox = document.createElement('div');
+                giftBox.className = "bg-white p-4 rounded-2xl border-2 border-[#ff0050] shadow-lg flex items-center justify-center";
+                giftBox.innerHTML = `<img src="${giftSrc}" class="w-24 h-24 object-contain" alt="Gift">`;
+                resultsContainer.appendChild(giftBox);
+            });
+
+            switchPage('page3');
+        }
+
+        window.onload = spawnBackgroundIcons;
+    </script>
+</body>
+</html>
